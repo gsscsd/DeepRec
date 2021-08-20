@@ -22,7 +22,7 @@ class BaseFeature(object):
 
 
 class DenseFeature(BaseFeature):
-    def __init__(self, name, dim, dtype, func, **kwargs):
+    def __init__(self, name, dim, dtype, func=None, **kwargs):
         self._func = func
         super(DenseFeature, self).__init__(name, dim, dtype, **kwargs)
 
@@ -30,22 +30,33 @@ class DenseFeature(BaseFeature):
     def func(self):
         return self._func
 
+    def __str__(self):
+        return "DenseFeature name: {0}, dim: {1}, dtype: {2}".format(self.name, self.dim, self.dtype)
+
 
 class SparseFeature(BaseFeature):
-    def __init__(self, name, dim, dtype, use_hash, hash_size, emb_dim, **kwargs):
-        self._use_hash = use_hash
+    def __init__(self, name, dim, dtype, vocab_size=None, hash_size=None, emb_size=None, **kwargs):
         self._hash_size = hash_size
-        self._emb_dim = emb_dim
+        self._vocab_size = vocab_size
+        self._emb_size = emb_size
         super(SparseFeature, self).__init__(name, dim, dtype, **kwargs)
-
-    @property
-    def use_hash(self):
-        return self._use_hash
 
     @property
     def hash_size(self):
         return self._hash_size
 
     @property
-    def emb_dim(self):
-        return self._emb_dim
+    def vocab_size(self):
+        return self._vocab_size
+    @property
+    def emb_size(self):
+        return self._emb_size
+
+    def __str__(self):
+        return "SparseFeature name: {0}, dim: {1}, dtype: {2}, " \
+               "hash_size: {3}, vocab_size : {4}, emb_size: {5}".format(self.name,
+                                                                        self.dim,
+                                                                        self.dtype,
+                                                                        self.hash_size,
+                                                                        self.vocab_size,
+                                                                        self.emb_size)
