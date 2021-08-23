@@ -1,6 +1,8 @@
-class BaseFeature(object):
+import tensorflow as tf
 
-    def __init__(self, name, dim, dtype, **kwargs):
+
+class BaseFeature(object):
+    def __init__(self, name, dim=1, dtype=tf.float32, **kwargs):
         self._name = name
         self._dim = dim
         self._dtype = dtype
@@ -22,7 +24,7 @@ class BaseFeature(object):
 
 
 class DenseFeature(BaseFeature):
-    def __init__(self, name, dim, dtype, func=None, **kwargs):
+    def __init__(self, name, dim=1, dtype=tf.float32, func=None, **kwargs):
         self._func = func
         super(DenseFeature, self).__init__(name, dim, dtype, **kwargs)
 
@@ -35,7 +37,7 @@ class DenseFeature(BaseFeature):
 
 
 class SparseFeature(BaseFeature):
-    def __init__(self, name, dim, dtype, vocab_size=None, hash_size=None, emb_size=None, **kwargs):
+    def __init__(self, name, dim=1, dtype=tf.float32, vocab_size=None, hash_size=None, emb_size=None, **kwargs):
         self._hash_size = hash_size
         self._vocab_size = vocab_size
         self._emb_size = emb_size
