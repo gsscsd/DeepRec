@@ -23,7 +23,8 @@ class LayerNormalization(tf.keras.layers.Layer):
 
     def call(self, inputs):
         mean = tf.reduce_mean(inputs, axis=self.axis, keepdims=True)
-        variance = tf.reduce_mean(tf.square(inputs - mean), axis=-1, keepdims=True)
+        variance = tf.reduce_mean(
+            tf.square(inputs - mean), axis=-1, keepdims=True)
         std = tf.sqrt(variance + self.eps)
         outputs = (inputs - mean) / std
         if self.scale:
@@ -36,6 +37,7 @@ class LayerNormalization(tf.keras.layers.Layer):
         return input_shape
 
     def get_config(self, ):
-        config = {'axis': self.axis, 'eps': self.eps, 'center': self.center, 'scale': self.scale}
+        config = {'axis': self.axis, 'eps': self.eps,
+                  'center': self.center, 'scale': self.scale}
         base_config = super(LayerNormalization, self).get_config()
         return dict(list(base_config.items()) + list(config.items()))
